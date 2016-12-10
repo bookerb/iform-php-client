@@ -1,14 +1,10 @@
 <?php
-
 /**
- * User: bbennett
- * Date: 2016-12-03
- * Time: 5:17 PM
+ * @author bookerb
+ * @package iform
  */
 
 namespace IForm;
-
-//use Httpful\Request;
 
 /**
  * Class Request
@@ -47,50 +43,36 @@ class Request
         $header[] = 'Content-type: application/json';
         $header[] = 'Authorization: Bearer ' . $this->token->getToken();
 
-        $httpful = true;
-        if ($httpful) {
-            switch ($method) {
-                case 'GET':
-                    $params = (sizeof($params)) ? "?" . http_build_query($params) : '';
-                    $this->response  = \Httpful\Request::get($httpurl .  $params)
-                        ->sendsJson()
-                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
-                        )->send();
-                    break;
-                case 'POST':
-                    $this->response  = \Httpful\Request::post($httpurl)
-                        ->sendsJson()
-                        ->body(json_encode($params))
-                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
-                        )->send();
-                    break;
-                case 'PUT':
-                    $this->response  = \Httpful\Request::put($httpurl)
-                        ->sendsJson()
-                        ->body(json_encode($params))
-                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
-                        )->send();
-                    break;
-                case 'DELETE':
-                    $this->response  = \Httpful\Request::delete($httpurl)
-                        ->sendsJson()
-                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
-                        )->send();
-                    break;
-            }
 
+        switch ($method) {
+            case 'GET':
+                $params = (sizeof($params)) ? "?" . http_build_query($params) : '';
+                $this->response  = \Httpful\Request::get($httpurl .  $params)
+                    ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
+                    ->send();
+                break;
+            case 'POST':
+                $this->response  = \Httpful\Request::post($httpurl)
+                    ->body(json_encode($params))
+                    ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
+                    ->send();
+                break;
+            case 'PUT':
+                $this->response  = \Httpful\Request::put($httpurl)
+                    ->body(json_encode($params))
+                    ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
+                    ->send();
 
+                break;
+            case 'DELETE':
+                $this->response  = \Httpful\Request::delete($httpurl)
+                    ->body(json_encode($params))
+                    ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
+                    ->send();
+                dump($this->response);
+                break;
         }
-        else
-        {
-          list ($this->http_status, $this->http_json) = Curl::sendCurlRequest($method, $httpurl, $params, false, '', $header);
 
-            if ($this->http_status == 200) {
-                $this->response = json_decode($this->http_json, true);
-            } else {
-                exit($this->http_json);
-            }
-        }
     }
 
     /**

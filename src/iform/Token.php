@@ -1,21 +1,32 @@
 <?php
+/**
+ * @author bookerb
+ * @package iform
+ */
 
 namespace IForm;
 
 use \Firebase\JWT\JWT;
 
+/**
+ * Class Token
+ * @package IForm
+ */
 class Token
 {
-
+    private $response;
     private $int_token_access;
     private $int_token_expiry;
     private $client_key;
     private $client_secret;
     private $oauth_url;
 
-    ## ===========================================
-    ## __construct
-    ## ===========================================
+    /**
+     * Token constructor.
+     * @param $client_key
+     * @param $client_secret
+     * @param $oauth_url
+     */
     function __construct($client_key, $client_secret, $oauth_url)
     {
         $this->client_key = $client_key;
@@ -23,15 +34,11 @@ class Token
         $this->oauth_url = $oauth_url;
     }
 
-    //public function getTokenTimeRemain()       { return strtotime($this->$int_token_expiry) - time(); }
-    //public function getTokenDisplay()          { return "Access: " . $this->$int_token_access . " Expiry: " . $this->$int_token_expiry . " Valid: " . $this->getTokenTimeRemain() . " seconds remaining"; }
-
-    ## ===========================================
-    ## getAccessToken
-    ## ===========================================
+    /**
+     * @return mixed
+     */
     public function getToken()
     {
-
         if (!$this->int_token_access || $this->int_token_expiry < time()) {
 
             $token = array(
@@ -45,15 +52,10 @@ class Token
             $param = array();
             $param["grant_type"] = "urn:ietf:params:oauth:grant-type:jwt-bearer";
             $param["assertion"] = $assertion;
-
             $param = http_build_query($param);
 
-
-            list ($httpStatus, $response) = Curl::sendCurlRequest("POST", $this->oauth_url, $param, false);
-
-
-            $response = json_decode($response, true);
-            $this->int_token_access = $response['access_token'];
+            $this->response  = \Httpful\Request::post($this->oauth_url . "?" . $param)->send();
+            $this->int_token_access = $this->response->body->access_token;
             $this->int_token_expiry = time() + 3500;
 
 
