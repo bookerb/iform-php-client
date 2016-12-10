@@ -1,0 +1,13 @@
+{
+  "autoload": {
+    "psr-4": {
+      "IForm\\":       "src/iform/"
+    }
+  },
+  "require": {
+    "firebase/php-jwt": "^4.0",
+    "monolog/monolog": "^1.22",
+    "php-console/php-console": "^3.1",
+    "emarref/jwt": "^1.0"
+  }
+}
