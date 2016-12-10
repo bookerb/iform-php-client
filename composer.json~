@@ -1,7 +1,7 @@
 {
   "name": "bookerb/iform-php-client",
   "description": "IFormBuilder API v6.0 client ",
-  "homepage": "http://github.com/bookerb/iform-php-client",
+  "homepage": "http://github.com/Seldaek/iform-php-client",
   "type": "library",
   "keywords" : ["iform, api, client"],
   "license": "MIT",
