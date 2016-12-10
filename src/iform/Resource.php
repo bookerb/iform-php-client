@@ -1,11 +1,11 @@
 <?php
 /**
- * User: bbennett
- * Date: 2016-12-08
- * Time: 5:51 AM
+ * @author bookerb
+ * @package iform
  */
 
 namespace iform;
+
 use IForm;
 
 /**
@@ -53,12 +53,19 @@ class Resource
     protected function setParamArray($params)
     {
 
-        if (sizeof($params) && is_array($params))
-        {
-            foreach ($params as $key => $value)
-            {
+        if (sizeof($params) && is_array($params)) {
+            foreach ($params as $key => $value) {
                 $this->setParams($key, $value);
             }
         }
+    }
+
+    /**
+     * @param $params
+     */
+    protected function setParamRaw($params)
+    {
+        $this->params = $params;
+
     }
 }

@@ -1,13 +1,17 @@
 <?php
 /**
- * User: bbennett
- * Date: 2016-12-09
- * Time: 6:28 AM
+ * @author bookerb
+ * @package iform
  */
 
 namespace iform;
+
 use IForm;
 
+/**
+ * Class UserResource
+ * @package iform
+ */
 class UserResource extends IForm\Resource
 {
     /**
@@ -53,12 +57,17 @@ class UserResource extends IForm\Resource
         return $this->getResponse('PUT', $this->httpurl . '/' . $user_id);
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function setUsers($params = array())
     {
         // TODO: sanity check for passed in array values
-        $this->setParamArray($params);
-        return $this->getResponse('PUT', $this->httpurl . '/' . $user_id);
+        $this->setParamRaw($params);
+        return $this->getResponse('PUT', $this->httpurl);
     }
+
     /**
      * @param $user_id
      * @return array
@@ -68,6 +77,20 @@ class UserResource extends IForm\Resource
         return $this->getResponse('DELETE', $this->httpurl . '/' . $user_id);
     }
 
+    /**
+     * @param $users
+     * @return array
+     */
+    public function deleteUsers($params)
+    {
+        $this->setParamRaw($params);
+        return $this->getResponse('DELETE', $this->httpurl);
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
     public function createUser($params = array())
     {
         // TODO: sanity check for passed in array values
