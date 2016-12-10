@@ -18,7 +18,7 @@ class UserResource extends IForm\Resource
      */
     public function __construct($token, $client_name, $client_profile)
     {
-        $this->token   = $token;
+        $this->token = $token;
         $this->httpurl = 'https://' . $client_name . '.iformbuilder.com/exzact/api/v60/profiles/self/users';
     }
 
@@ -26,7 +26,7 @@ class UserResource extends IForm\Resource
      * @param array $params
      * @return array
      */
-    public function getUserList($params=array())
+    public function getUserList($params = array())
     {
         $this->setParamArray($params);
         return $this->getResponse('GET', $this->httpurl);
@@ -46,10 +46,32 @@ class UserResource extends IForm\Resource
      * @param array $params
      * @return array
      */
-    public function setUser($user_id, $params=array())
+    public function setUser($user_id, $params = array())
     {
+        // TODO: sanity check for passed in array valuesx
         $this->setParamArray($params);
         return $this->getResponse('PUT', $this->httpurl . '/' . $user_id);
     }
 
+    public function setUsers($params = array())
+    {
+        // TODO: sanity check for passed in array values
+        $this->setParamArray($params);
+        return $this->getResponse('PUT', $this->httpurl . '/' . $user_id);
+    }
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public function deleteUser($user_id)
+    {
+        return $this->getResponse('DELETE', $this->httpurl . '/' . $user_id);
+    }
+
+    public function createUser($params = array())
+    {
+        // TODO: sanity check for passed in array values
+        $this->setParamArray($params);
+        return $this->getResponse('POST', $this->httpurl);
+    }
 }

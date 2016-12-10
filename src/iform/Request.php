@@ -8,6 +8,8 @@
 
 namespace IForm;
 
+//use Httpful\Request;
+
 /**
  * Class Request
  * @package IForm
@@ -23,7 +25,7 @@ class Request
      * Request constructor.
      * @param $token
      */
-    public function __construct($token)
+    public function __construct(Token $token)
     {
         // Check for access token
         $this->token = $token;
@@ -44,19 +46,55 @@ class Request
         $header[] = 'Content-length: 0';
         $header[] = 'Content-type: application/json';
         $header[] = 'Authorization: Bearer ' . $this->token->getToken();
-        $params = http_build_query($params);
 
-        list ($this->http_status, $this->http_json) = Curl::sendCurlRequest($method, $httpurl, $params, false, '', $header);
+        $httpful = true;
+        if ($httpful) {
+            switch ($method) {
+                case 'GET':
+                    $params = (sizeof($params)) ? "?" . http_build_query($params) : '';
+                    $this->response  = \Httpful\Request::get($httpurl .  $params)
+                        ->sendsJson()
+                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
+                        )->send();
+                    break;
+                case 'POST':
+                    $this->response  = \Httpful\Request::post($httpurl)
+                        ->sendsJson()
+                        ->body(json_encode($params))
+                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
+                        )->send();
+                    break;
+                case 'PUT':
+                    $this->response  = \Httpful\Request::put($httpurl)
+                        ->sendsJson()
+                        ->body(json_encode($params))
+                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
+                        )->send();
+                    break;
+                case 'DELETE':
+                    $this->response  = \Httpful\Request::delete($httpurl)
+                        ->sendsJson()
+                        ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken())
+                        )->send();
+                    break;
+            }
 
-        if ($this->http_status == 200) {
-            $this->response = json_decode($this->http_json, true);
-        } else {
-            exit($this->http_json);
+
         }
+        else
+        {
+          list ($this->http_status, $this->http_json) = Curl::sendCurlRequest($method, $httpurl, $params, false, '', $header);
 
+            if ($this->http_status == 200) {
+                $this->response = json_decode($this->http_json, true);
+            } else {
+                exit($this->http_json);
+            }
+        }
     }
 
     /**
+     * @param $method
      * @param $httpurl
      * @param array $params
      * @return array
@@ -64,13 +102,16 @@ class Request
     public function getResponse($method, $httpurl, $params = array())
     {
         $this->sendRequest($method, $httpurl, $params);
-        return $this->response;
+        return $this->response->body;
     }
 
     /**
+     * @param $method
+     * @param $httpurl
+     * @param $params
      * @return mixed
      */
-    public function getRawResponse()
+    public function getRawResponse($method, $httpurl, $params)
     {
         $this->sendRequest($method, $httpurl, $params);
         return $this->http_json;

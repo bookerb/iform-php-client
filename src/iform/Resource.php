@@ -22,7 +22,7 @@ class Resource
      * Resource constructor.
      * @param $token
      */
-    public function __construct($token)
+    public function __construct(Token $token)
     {
         $this->token = $token;
     }
@@ -30,10 +30,9 @@ class Resource
     /**
      * @param $method
      * @param $httpurl
-     * @param array $params
      * @return array
      */
-    public function getResponse($method, $httpurl)
+    protected function getResponse($method, $httpurl)
     {
         $request = new IForm\Request($this->token);
         return $request->getResponse($method, $httpurl, $this->params);
@@ -43,7 +42,7 @@ class Resource
      * @param $key
      * @param $value
      */
-    public function setParams($key, $value)
+    protected function setParams($key, $value)
     {
         $this->params[$key] = $value;
     }
@@ -51,7 +50,7 @@ class Resource
     /**
      * @param $params
      */
-    public function setParamArray($params)
+    protected function setParamArray($params)
     {
 
         if (sizeof($params) && is_array($params))
