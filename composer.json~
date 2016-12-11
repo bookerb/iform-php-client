@@ -15,7 +15,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/bookerb/iform-php-client" 
+      "url": "https://github.com/Seldaek/monolog"
     }
   ],
   "autoload": {
