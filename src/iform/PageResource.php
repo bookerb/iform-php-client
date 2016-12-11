@@ -23,6 +23,10 @@ class PageResource extends IForm\Resource
         $this->httpurl = 'https://' . $client_name . '.iformbuilder.com/exzact/api/v60/profiles/self/pages';
     }
 
+    /**
+     * @param $params
+     * @return array
+     */
     public function getPageList($params)
     {
         $this->setParamArray($params);

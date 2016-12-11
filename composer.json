@@ -12,18 +12,13 @@
       "role": "Developer"
     }
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/bookerb/iform-php-client" 
-    }
-  ],
   "autoload": {
     "psr-4": {
       "IForm\\":       "src/iform/"
     }
   },
   "require": {
+    "php": ">=5.3.0"
     "firebase/php-jwt": "^4.0",
     "nategood/httpful": "*"
   }
