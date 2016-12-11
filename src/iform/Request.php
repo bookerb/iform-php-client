@@ -47,29 +47,29 @@ class Request
         switch ($method) {
             case 'GET':
                 $params = (sizeof($params)) ? "?" . http_build_query($params) : '';
-                $this->response  = \Httpful\Request::get($httpurl .  $params)
+                $this->response = \Httpful\Request::get($httpurl . $params)
+                    ->body(json_encode($params))
                     ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
                     ->send();
                 break;
             case 'POST':
-                $this->response  = \Httpful\Request::post($httpurl)
+                $this->response = \Httpful\Request::post($httpurl)
                     ->body(json_encode($params))
                     ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
                     ->send();
                 break;
             case 'PUT':
-                $this->response  = \Httpful\Request::put($httpurl)
+                $this->response = \Httpful\Request::put($httpurl)
                     ->body(json_encode($params))
                     ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
                     ->send();
 
                 break;
             case 'DELETE':
-                $this->response  = \Httpful\Request::delete($httpurl)
+                $this->response = \Httpful\Request::delete($httpurl)
                     ->body(json_encode($params))
                     ->addHeaders(array('Authorization' => ' Bearer ' . $this->token->getToken()))
                     ->send();
-                dump($this->response);
                 break;
         }
 

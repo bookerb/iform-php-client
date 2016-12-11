@@ -1,5 +1,4 @@
 vendor/
 .idea/
 src/config.php
-src/debug.php
 .token
