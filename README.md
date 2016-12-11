@@ -1,16 +1,16 @@
 # IForm PHP Client
-
+Simple implementations for the API features I most commonly use
+* User records and page assignment
+* Page records
+* Option list (picklist) population
 ## Installation
-TODO
+git clone https://github.com/bookerb/iform-php-client.git
+composer update
 
 ## Usage
-TODO
+See included example files
 
 ## Third Party Packages
-TODO
-
-## About
-TODO 
-
-### Requirements
-TODO
+* Firebase/JWT
+* HTTPFul
+ 
